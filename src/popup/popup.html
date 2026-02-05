@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearTab AI</title>
+  <link rel="stylesheet" href="./popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ClearTab AI</h1>
+    </header>
+
+    <main>
+      <button id="summarize-btn" class="btn-primary">
+        Summarize This Tab
+      </button>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Analyzing content...</span>
+      </div>
+
+      <div id="output" class="output hidden"></div>
+
+      <div id="error" class="error hidden"></div>
+    </main>
+
+    <footer>
+      <p>Privacy-first summarizer</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./popup.ts"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "quicktldr",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "vite build && node scripts/post-build.js",
+    "dev": "vite build --watch",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.5.0"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.10",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  }
+}
