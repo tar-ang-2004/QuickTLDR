@@ -35,7 +35,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["assets/*"],
+      "resources": ["assets/*", "overlayUI.js", "highlight.js"],
       "matches": ["<all_urls>"]
     }
   ]

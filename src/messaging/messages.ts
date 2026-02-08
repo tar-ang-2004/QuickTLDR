@@ -22,6 +22,25 @@ export type ExtensionRequest = SummarizeRequest | ExtractTextRequest;
 
 export type ExtensionResponse = SummaryResponse | ErrorResponse;
 
+export interface RecallRequest {
+  type: 'RECALL_MEMORY';
+  query: string;
+}
+
+export interface RecallResponse {
+  type: 'RECALL_RESPONSE';
+  data: Array<{
+    id: string;
+    url: string;
+    title: string;
+    summary: string;
+    timestamp: number;
+  }>;
+}
+
+export type MemoryRequest = RecallRequest;
+export type MemoryResponse = RecallResponse | ErrorResponse;
+
 export function isSummarizeRequest(obj: unknown): obj is SummarizeRequest {
   return (
     typeof obj === 'object' &&

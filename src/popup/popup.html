@@ -1,37 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClearTab AI</title>
-  <link rel="stylesheet" href="./popup.css">
+  <title>QuickTLDR</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>ClearTab AI</h1>
+  <div class="app">
+    
+    <header class="header">
+      <div></div>
+      <div class="brand">
+        <img class="brand-logo" src="../../public/icons/icon128.png" alt="QuickTLDR logo" />
+        <h1>QuickTLDR</h1>
+      </div>
+      <div></div>
     </header>
 
-    <main>
-      <button id="summarize-btn" class="btn-primary">
-        Summarize This Tab
+    <div class="card">
+      <button class="button-primary" id="summarizeBtn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14l4-2 2-4 4-6z"/>
+        </svg>
+        Summarize
       </button>
+    </div>
 
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <span>Analyzing content...</span>
+    <div class="card collapsible" id="advancedInsights">
+      <button class="card-title" data-toggle="insights">
+        Advanced insights
+        <svg class="chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6l3 3 3-3"/>
+        </svg>
+      </button>
+      <div class="card-body hidden" id="insightsBody">
+        <div class="insight-card">
+          <div class="insight-label">Meta</div>
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-key">Reading time</span>
+              <span class="meta-value" id="metaReadingTime">5 min</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">Word count</span>
+              <span class="meta-value" id="metaWordCount">1,250</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">Author</span>
+              <span class="meta-value" id="metaAuthor">Unknown</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">Published</span>
+              <span class="meta-value" id="metaPublished">Today</span>
+            </div>
+          </div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-label">Bias</div>
+          <div class="bias-display">
+            <div class="bias-score" id="biasScore">N</div>
+            <div class="bias-note" id="biasNote">Neutral stance detected</div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div id="output" class="output hidden"></div>
+    <div class="summary-container hidden" id="summaryContainer">
+      <div class="card">
+        <div class="summary-content" id="summaryContent"></div>
+      </div>
+      <div class="actions-row">
+        <div class="dropdown">
+          <button class="button-secondary" id="translateBtn">
+            <span>Translate</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6l2 2 2-2"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu hidden" id="translateMenu">
+            <button class="dropdown-item" data-lang="en">English</button>
+            <button class="dropdown-item" data-lang="hi">Hindi</button>
+            <button class="dropdown-item" data-lang="es">Spanish</button>
+            <button class="dropdown-item" data-lang="fr">French</button>
+            <button class="dropdown-item" data-lang="de">German</button>
+            <button class="dropdown-item" data-lang="ja">Japanese</button>
+          </div>
+        </div>
+        <button class="button-secondary" id="copyBtn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="8" height="8" rx="1"/>
+            <path d="M11 1H5a1 1 0 00-1 1v1h6a2 2 0 012 2v6h1a1 1 0 001-1V2a1 1 0 00-1-1z"/>
+          </svg>
+          Copy
+        </button>
+      </div>
+    </div>
 
-      <div id="error" class="error hidden"></div>
-    </main>
+    <div class="skeleton-loader hidden" id="skeletonLoader">
+      <div class="skeleton-block"></div>
+      <div class="skeleton-block"></div>
+      <div class="skeleton-block short"></div>
+    </div>
 
-    <footer>
-      <p>Privacy-first summarizer</p>
-    </footer>
+    <div class="card collapsible">
+      <button class="card-title" data-toggle="settings">
+        Settings
+        <svg class="chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6l3 3 3-3"/>
+        </svg>
+      </button>
+      <div class="card-body hidden" id="settingsBody">
+        <div class="setting-group">
+          <label class="setting-label">API Provider</label>
+          <div class="segment-group" id="providerToggle">
+            <button class="segment-button active" data-provider="gemini">Gemini</button>
+            <button class="segment-button" data-provider="openai">OpenAI</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">API Key</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="password" class="input-field" id="apiKeyInput" placeholder="Enter API key…">
+            <button class="button-secondary" id="apiKeySaveBtn">Save</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Theme</label>
+          <div class="segment-group" id="themeToggleGroup">
+            <button class="segment-button active" data-theme-btn="dark">Dark</button>
+            <button class="segment-button" data-theme-btn="light">Light</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card collapsible">
+      <button class="card-title" data-toggle="preferences">
+        Reading Preferences
+        <svg class="chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6l3 3 3-3"/>
+        </svg>
+      </button>
+      <div class="card-body hidden" id="preferencesBody">
+        <div class="setting-group">
+          <label class="setting-label">Mode</label>
+          <div class="segment-group" id="modeSelector">
+            <button class="segment-button" data-mode="simple">Simple</button>
+            <button class="segment-button" data-mode="student">Student</button>
+            <button class="segment-button active" data-mode="professional">Professional</button>
+            <button class="segment-button" data-mode="expert">Expert</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Intent</label>
+          <div class="segment-group" id="intentSelector">
+            <button class="segment-button" data-intent="research">Research</button>
+            <button class="segment-button" data-intent="exam">Exam</button>
+            <button class="segment-button" data-intent="decision">Decision</button>
+            <button class="segment-button active" data-intent="casual">Casual</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Level</label>
+          <div class="segment-group" id="levelSelector">
+            <button class="segment-button" data-level="1">Level 1</button>
+            <button class="segment-button active" data-level="2">Level 2</button>
+            <button class="segment-button" data-level="3">Level 3</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-
   <script type="module" src="./popup.ts"></script>
 </body>
 </html>

@@ -1,18 +1,20 @@
 export interface Summary {
   tldr: string[];
-  facts: string[];
-  actions: string[];
-  numbers: string[];
-  quotes: string[];
+  keyPoints: string[];
+  quantifiables: string[];
+  actionItems: string[];
+  influence: string[];
+  notableQuotes: string[];
 }
 
 export function createEmptySummary(): Summary {
   return {
     tldr: [],
-    facts: [],
-    actions: [],
-    numbers: [],
-    quotes: []
+    keyPoints: [],
+    quantifiables: [],
+    actionItems: [],
+    influence: [],
+    notableQuotes: []
   };
 }
 
@@ -37,9 +39,10 @@ export function validateSummary(obj: unknown): Summary {
 
   return {
     tldr: sanitizeArray(data.tldr),
-    facts: sanitizeArray(data.facts),
-    actions: sanitizeArray(data.actions),
-    numbers: sanitizeArray(data.numbers),
-    quotes: sanitizeArray(data.quotes)
+    keyPoints: sanitizeArray(data.keyPoints),
+    quantifiables: sanitizeArray(data.quantifiables),
+    actionItems: sanitizeArray(data.actionItems),
+    influence: sanitizeArray(data.influence),
+    notableQuotes: sanitizeArray(data.notableQuotes)
   };
 }
