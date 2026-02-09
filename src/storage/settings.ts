@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS: Settings = {
   dailyUsage: 0,
   lastReset: Date.now()
   ,
-  apiKey: 'AIzaSyCLEpoEmz5j8hAr9q2inox521FaV7sNgLo'
+  apiKey: ''
   ,
   readingMode: 'professional',
   readingIntent: 'casual',
